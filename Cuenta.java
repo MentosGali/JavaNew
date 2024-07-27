@@ -53,7 +53,7 @@ public class Cuenta {
             return;
         }
         saldo += cantidad;
-        movimientos.add(new Movimientos(LocalDateTime.now(), cantidad, Movimientos.ingreso));
+        movimientos.add(new Movimientos(LocalDateTime.now(), cantidad, Movimientos.INGRESO));
     }
 
     public void retiro(float cantidad) {
@@ -62,19 +62,32 @@ public class Cuenta {
             return;
         }
         saldo -= cantidad;
-        movimientos.add(new Movimientos(LocalDateTime.now(), cantidad, Movimientos.retiro));
+        movimientos.add(new Movimientos(LocalDateTime.now(), cantidad, Movimientos.RETIRO));
     }
 
     private String obtenerMovimientos() {
         String s = " ";
         for (Movimientos m : movimientos) {
-            s += toString() + " \n";
+            s += m.toString() + " \n";
         }
         return s;
     }
 
     public void verDatos() {
+        String s = " ";
+        s += "No.Cuenta: " + numeroCuenta + "\n";
+        s += "Titular: " + titular.nombreCompleto() + "\n";
+        s += "Domicilio: " + titular.direccionCompleta() + "\n";
+        s += "Saldo Actual: " + saldo + "en $";
+        s += "----------------MOVIMIENTOS-----------------" + "\n";
+        s += obtenerMovimientos();
+        System.out.println(s);
+    }
 
+    @Override
+    public String toString() {
+        return "Cuenta [numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", titular=" + titular + ", movimientos="
+                + movimientos + "]";
     }
 
     /*
@@ -82,8 +95,8 @@ public class Cuenta {
      */
 
     private class Movimientos {
-        private static final byte ingreso = 0;
-        private static final byte retiro = 1;
+        private static final byte INGRESO = 0;
+        private static final byte RETIRO = 1;
 
         private LocalDateTime fechahora;
         private float importe;
@@ -100,9 +113,13 @@ public class Cuenta {
 
         @Override
         public String toString() {
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
             return (tipo == INGRESO ? "INGRESO" : "RETIRO")
-                    + "\nfecha: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.Medium))
-                    + "\nHora: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.Medium))
+                    + "\nFecha: " + fechahora.format(dateFormatter)
+                    + "\nHora: " + fechahora.format(timeFormatter)
                     + "\nImporte: " + importe
                     + "\nSaldo" + saldoFinal;
         }
