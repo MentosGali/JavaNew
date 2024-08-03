@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
 public class Cuenta {
@@ -100,9 +101,9 @@ public class Cuenta {
 
         @Override
         public String toString() {
-            return (tipo == INGRESO ? "INGRESO" : "RETIRO")
-                    + "\nfecha: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.Medium))
-                    + "\nHora: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.Medium))
+            return (tipo == ingreso ? "INGRESO" : "RETIRO")
+                    + "\nfecha: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+                    + "\nHora: " + fechahora.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
                     + "\nImporte: " + importe
                     + "\nSaldo" + saldoFinal;
         }
